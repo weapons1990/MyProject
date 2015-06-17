@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B456A43-7173-48ED-A629-58DCDB4DFED2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Balance.Model</RootNamespace>
+    <AssemblyName>Balance.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnergyConsumption">
+      <HintPath>..\Lib\EnergyConsumption.dll</HintPath>
+    </Reference>
+    <Reference Include="SqlServerDataAdapter">
+      <HintPath>..\Lib\SqlServerDataAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BalanceService.cs" />
+    <Compile Include="ElectricityQuantity\DailyElectricityQuantityService.cs" />
+    <Compile Include="MaterialChange\DailyMaterialChangeSummation.cs" />
+    <Compile Include="MaterialWeight\BalanceMartieralsClass.cs" />
+    <Compile Include="MaterialWeight\DailyMaterialWeight.cs" />
+    <Compile Include="MonthlyBalanceService.cs" />
+    <Compile Include="Monthly\MonthlyService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicMethod\ConvertTable.cs" />
+    <Compile Include="ShareElectricityQuantity\ShareCalculateService.cs" />
+    <Compile Include="ShareElectricityQuantity\ShareElectricityQuantityDaily.cs" />
+    <Compile Include="ShareElectricityQuantity\ShareElectricityQuantityMonthly.cs" />
+    <Compile Include="TzBalance\ShiftAndWorkingTeamService.cs" />
+    <Compile Include="TzBalance\TzBalanceService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Balance.Infrastructure\Balance.Infrastructure.csproj">
+      <Project>{3da7cc8d-2335-4750-af6d-bc4cfbb56433}</Project>
+      <Name>Balance.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

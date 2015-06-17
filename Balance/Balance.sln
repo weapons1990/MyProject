@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceForm", "BalanceForm\BalanceForm.csproj", "{EC29949A-B2EB-4241-B832-9D23DC8281B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balance.Model", "Balance.Model\Balance.Model.csproj", "{5B456A43-7173-48ED-A629-58DCDB4DFED2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balance.Infrastructure", "Balance.Infrastructure\Balance.Infrastructure.csproj", "{3DA7CC8D-2335-4750-AF6D-BC4CFBB56433}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC29949A-B2EB-4241-B832-9D23DC8281B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC29949A-B2EB-4241-B832-9D23DC8281B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC29949A-B2EB-4241-B832-9D23DC8281B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC29949A-B2EB-4241-B832-9D23DC8281B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B456A43-7173-48ED-A629-58DCDB4DFED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B456A43-7173-48ED-A629-58DCDB4DFED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B456A43-7173-48ED-A629-58DCDB4DFED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B456A43-7173-48ED-A629-58DCDB4DFED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DA7CC8D-2335-4750-AF6D-BC4CFBB56433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DA7CC8D-2335-4750-AF6D-BC4CFBB56433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DA7CC8D-2335-4750-AF6D-BC4CFBB56433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DA7CC8D-2335-4750-AF6D-BC4CFBB56433}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
