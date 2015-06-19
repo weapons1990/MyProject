@@ -54,6 +54,7 @@
     <Compile Include="Monthly\MonthlyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicMethod\ConvertTable.cs" />
+    <Compile Include="Schedule\WorkScheduleRule.cs" />
     <Compile Include="ShareElectricityQuantity\ShareCalculateService.cs" />
     <Compile Include="ShareElectricityQuantity\ShareElectricityQuantityDaily.cs" />
     <Compile Include="ShareElectricityQuantity\ShareElectricityQuantityMonthly.cs" />

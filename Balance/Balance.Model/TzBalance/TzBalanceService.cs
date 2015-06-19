@@ -1,5 +1,6 @@
 ﻿using Balance.Infrastructure.BasicDate;
 using Balance.Infrastructure.Configuration;
+using Balance.Model.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,7 +27,8 @@ namespace Balance.Model.TzBalance
             tzRow["StaticsCycle"] = "day";
             tzRow["TimeStamp"] = singleBasicData.Date;
             tzRow["BalanceStatus"] = 1;
-            tzRow=ShiftAndWorkingTeamService.AddRelationshipToTzbalance(singleBasicData.Date,singleBasicData.OrganizationId,ConnectionStringFactory.NXJCConnectionString,tzRow);
+            //tzRow=ShiftAndWorkingTeamService.AddRelationshipToTzbalance(singleBasicData.Date,singleBasicData.OrganizationId,ConnectionStringFactory.NXJCConnectionString,tzRow);
+            WorkScheduleRule.AddRelationshipToTzbalance(tzRow);//排班
             result.Rows.Add(tzRow);
             return result;
         }

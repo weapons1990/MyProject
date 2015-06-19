@@ -135,6 +135,7 @@ namespace BalanceForm
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            //Balance.Model.Schedule.WorkScheduleRule.AotuCalculate(new string[] { "白", "白", "中", "中", "休", "夜", "夜", "休" }, new DateTime(2015,5,17), new DateTime(2015,5,29));
             try
             {
                 DateTime date = DateTime.Parse(txtDate.Text.ToString().Trim());
