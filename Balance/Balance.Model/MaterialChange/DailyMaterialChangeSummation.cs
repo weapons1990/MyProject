@@ -4,6 +4,7 @@ using SqlServerDataAdapter;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,27 +21,63 @@ namespace Balance.Model.MaterialChange
             SingleBasicData singleBasicData = SingleBasicData.Creat();
             SingleTimeService singleTimeService = SingleTimeService.Creat();
             DataTable result = singleBasicData.BalanceTable.Clone();
-            string sql = @"SELECT C.MaterialValue,C.VariableId,A.OrganizationID,B.Formula,C.ChangeStartTime,C.ChangeEndTime
-                                FROM tz_Material AS A,material_MaterialDetail AS B,material_MaterialChangeLog AS C
+            //取出1、开始时间或结束时间中至少有一个是今天的，2、取出开始时间小于今天并且结束时间为null的事件,3、取出开始时间小于等于今天并且结束时间大于等于今天的事件
+            string sql = @"SELECT C.MaterialValue,C.VariableType,C.VariableId,A.OrganizationID,B.Formula,C.ChangeStartTime,C.ChangeEndTime
+                                FROM tz_Material AS A,material_MaterialDetail AS B,material_MaterialChangeLog AS C,system_Organization D
                                 WHERE 
                                 A.KeyID=B.KeyID
                                 AND A.OrganizationID=C.OrganizationID
                                 AND B.VariableId=C.VariableId
+                                AND C.OrganizationID=D.OrganizationID
+								AND A.OrganizationID=D.OrganizationID
                                 AND C.VariableType='Cement'
                                 AND C.ValueType='Discrete'
-                                AND 
-                                (CONVERT(VARCHAR(10),C.ChangeStartTime,20)='{0}' OR CONVERT(VARCHAR(10),C.ChangeEndTime,20)='{1}')
-                                AND A.OrganizationID LIKE '{2}%'
+                                AND D.LevelCode LIKE (select LevelCode from system_Organization where OrganizationID=@organizationId)+'%'
+                                AND (
+                                (CONVERT(VARCHAR(10),C.ChangeStartTime,20)=@date OR CONVERT(VARCHAR(10),C.ChangeEndTime,20)=@date) 
+                                OR (CONVERT(VARCHAR(10),C.ChangeStartTime,20)<=@date AND C.ChangeEndTime is null)
+                                OR (CONVERT(VARCHAR(10),C.ChangeStartTime,20)<=@date AND CONVERT(VARCHAR(10),C.ChangeEndTime,20)>=@date))
                                 ORDER BY C.ChangeStartTime";
-            DataTable infoTable = dataFactory.Query(string.Format(sql, singleBasicData.Date, singleBasicData.Date,singleBasicData.OrganizationId));
+            SqlParameter[] parameters = { new SqlParameter("date", singleBasicData.Date), 
+                                            new SqlParameter("organizationId", singleBasicData.OrganizationId) };
+            DataTable infoTable = dataFactory.Query(sql, parameters);
             int n=infoTable.Rows.Count;
-            //本天没有生产则直接返回
+            //没有记录则直接返回
             if (n == 0)
                 return result;
-            if (infoTable.Rows[n - 1]["ChangeEndTime"] is DBNull)
+            //将时间都改为今天的时间
+            for (int i = 0; i < n; i++)
             {
-                infoTable.Rows[n - 1]["ChangeEndTime"] = singleBasicData.Date + " 23:59:59.000";
+                DataRow dr = infoTable.Rows[i];
+                //string startTime=datat dr["ChangeStartTime"].ToString()
+                if (dr["ChangeStartTime"] is DBNull || dr["ChangeStartTime"].ToString() == "")
+                {
+                    //开始时间若为空说明本条数据为无效数据，直接扔掉
+                    infoTable.Rows.RemoveAt(i);
+                }
+                else
+                {
+                    //考虑结束时间为null的情况（此情况开始时间小于等于今天的日期）
+                    if (dr["ChangeEndTime"] is DBNull)
+                    {
+                        dr["ChangeEndTime"] = singleBasicData.Date + " 23:59:59.000";
+                    }
+                    //考虑开始时间小于今天日期的情况（此情况结束时间要么是今天或第二天的一个时刻要么是null）
+                    if (DateTime.Parse(dr["ChangeStartTime"].ToString())<=DateTime.Parse(singleBasicData.Date+" 00:00:00.000"))
+                    {
+                        dr["ChangeStartTime"] = singleBasicData.Date + " 00:00:00.000";
+                    }
+                    //考虑到本软件的汇总时间为第二天，所以要去掉第二天的数据（此情况的开始时间必定小于或者等于今天的日期）
+                    if (DateTime.Parse(dr["ChangeEndTime"].ToString()) >= DateTime.Parse(singleBasicData.Date + " 23:59:59.000"))
+                    {
+                        dr["ChangeEndTime"] = singleBasicData.Date + " 23:59:59.000";
+                    }
+                }
             }
+            //if (infoTable.Rows[n - 1]["ChangeEndTime"] is DBNull)
+            //{
+            //    infoTable.Rows[n - 1]["ChangeEndTime"] = singleBasicData.Date + " 23:59:59.000";
+            //}
             //存储所有物料信息
             Dictionary<string, MaterialInfo> myDictionary = new Dictionary<string, MaterialInfo>();
             foreach (DataRow dr in infoTable.Rows)

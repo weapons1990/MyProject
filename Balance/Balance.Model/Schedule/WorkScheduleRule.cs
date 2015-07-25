@@ -22,8 +22,7 @@ namespace Balance.Model.Schedule
             ISqlServerDataFactory dataFactory = new SqlServerDataFactory(connectionString);
             string mySql = @"select A.OrganizationID,A.WorkingTeam,A.ShiftDate
                             from system_ShiftArrangement A
-                            where A.UpdateDate=(select MAX(UpdateDate) from system_ShiftArrangement)
-                            and A.OrganizationID=@organizationId";
+                            where  A.OrganizationID=@organizationId";
             SqlParameter parameter = new SqlParameter("organizationId", singleBasicData.OrganizationId);
             DataTable ruleTable = dataFactory.Query(mySql, parameter);
             string t_ruleAll = ConfigService.GetConfig("ScheduleRule");
@@ -34,7 +33,7 @@ namespace Balance.Model.Schedule
             string[] ruleArray=new string[]{};
             if (t_match.Contains('['))
             {
-                string t_rule=t_match.Substring(t_match.IndexOf('[')).TrimEnd(']');
+                string t_rule=t_match.Substring(t_match.IndexOf('[')+1).TrimEnd(']');
                 ruleArray = t_rule.Split(',','，');
             }
             foreach (DataRow dr in ruleTable.Rows)
