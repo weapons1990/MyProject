@@ -82,26 +82,106 @@ namespace Balance.Model.ElectricityQuantity
             //    DataRow row = result.NewRow();
             //    //row[item]=
             //}
-            DataTable sourceP = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.PeakTimeCriterion,
-                singleBasicData.AmmeterName, singleTimeService.PeakTimeCriterion));
+            //峰期
+            DataTable sourceP =new DataTable();
+            try
+            {
+                sourceP = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.PeakTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.PeakTimeCriterion));
+            }
+            catch (TimeoutException)
+            {
+                sourceP = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.PeakTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.PeakTimeCriterion));
+            }
+            //尖峰期
             DataTable sourceMP=new DataTable();
-            if(singleTimeService.MorePeakTimeCriterion!="1=0")
-                sourceMP = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName,singleTimeService.MorePeakTimeCriterion,
-                    singleBasicData.AmmeterName, singleTimeService.MorePeakTimeCriterion));
-            DataTable sourceV = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName,singleTimeService.ValleyTimeCriterion,
-                singleBasicData.AmmeterName, singleTimeService.ValleyTimeCriterion));
+            if (singleTimeService.MorePeakTimeCriterion != "1=0")
+            {
+                try
+                {
+                    sourceMP = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.MorePeakTimeCriterion,
+                        singleBasicData.AmmeterName, singleTimeService.MorePeakTimeCriterion));
+                }
+                catch (TimeoutException)
+                {
+                    sourceMP = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.MorePeakTimeCriterion,
+                        singleBasicData.AmmeterName, singleTimeService.MorePeakTimeCriterion));
+                }
+            }
+            //谷期
+            DataTable sourceV =new DataTable();
+            try
+            {
+                sourceV = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.ValleyTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.ValleyTimeCriterion));
+            }
+            catch (TimeoutException)
+            {
+                sourceV = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.ValleyTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.ValleyTimeCriterion));
+            }
+            //深谷期
             DataTable sourceMV=new DataTable();
-            if(singleTimeService.MoreValleyTimeCriterion!="1=0")
-                sourceMV = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName,singleTimeService.MoreValleyTimeCriterion,
-                    singleBasicData.AmmeterName, singleTimeService.MoreValleyTimeCriterion));
-            DataTable sourceF = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName,singleTimeService.FlatTimeCriterion,
-                singleBasicData.AmmeterName, singleTimeService.FlatTimeCriterion));
-            DataTable first = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName,singleTimeService.FirstTimeCriterion,
-                singleBasicData.AmmeterName, singleTimeService.FirstTimeCriterion));
-            DataTable second = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName,singleTimeService.SecondTimeCriterion,
-                singleBasicData.AmmeterName, singleTimeService.SecondTimeCriterion));
-            DataTable third = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName,singleTimeService.ThirdTimeCriterion,
+            try
+            {
+                if (singleTimeService.MoreValleyTimeCriterion != "1=0")
+                    sourceMV = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.MoreValleyTimeCriterion,
+                        singleBasicData.AmmeterName, singleTimeService.MoreValleyTimeCriterion));
+            }
+            catch (TimeoutException)
+            {
+                sourceMV = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.MoreValleyTimeCriterion,
+                        singleBasicData.AmmeterName, singleTimeService.MoreValleyTimeCriterion));
+            }
+            //峰期
+            DataTable sourceF =new DataTable();
+            try
+            {
+                sourceF = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.FlatTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.FlatTimeCriterion));
+            }
+            catch (TimeoutException)
+            {
+                sourceF = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.FlatTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.FlatTimeCriterion));
+            }
+            //甲班
+            DataTable first = new DataTable();
+            try
+            {
+                first = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.FirstTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.FirstTimeCriterion));
+            }
+            catch (TimeoutException)
+            {
+                first = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.FirstTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.FirstTimeCriterion));
+            }
+            //乙班
+            DataTable second = new DataTable();
+            try
+            {
+                second = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.SecondTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.SecondTimeCriterion));
+            }
+            catch (TimeoutException)
+            {
+                second = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.SecondTimeCriterion,
+                    singleBasicData.AmmeterName, singleTimeService.SecondTimeCriterion));
+            }
+            //丙班
+            DataTable third = new DataTable();
+            try
+            {
+                third = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.ThirdTimeCriterion,
                 singleBasicData.AmmeterName, singleTimeService.ThirdTimeCriterion));
+            }
+            catch (TimeoutException)
+            {
+                third = dataFactory.Query(string.Format(sqlStr, singleBasicData.AmmeterName, singleTimeService.ThirdTimeCriterion,
+                singleBasicData.AmmeterName, singleTimeService.ThirdTimeCriterion));
+            }
 
             Dictionary<string, DataTable> myDictionary = new Dictionary<string, DataTable>();
             myDictionary.Add("Peak",sourceP);
